@@ -8,7 +8,7 @@ on:
 
 jobs:
   test:
-    runs-on: Windows
+    runs-on: ubuntu-latest
 
     services:
       db:
@@ -38,6 +38,6 @@ jobs:
       
       - name: Run tests
         run: |
-          uvicorn ваша_программа:app --reload & # Запуск сервера в фоновом режиме
+          uvicorn main:app --reload & # Запуск сервера в фоновом режиме
           sleep 5 # ожидание, чтобы сервер успел запуститься
           curl -X POST "http://localhost:8000/predict2" -F "file=@B:\ml-api_images\cet.jpg" # пример запроса
