@@ -1,11 +1,7 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 from fastapi import FastAPI, File, UploadFile
-from sklearn.linear_model import LinearRegression
 from ultralytics import YOLO
-import numpy as np
-import cv2
-from typing import List, Tuple
 from PIL import Image
 
 #ort_session = ort.InferenceSession("yolo11x.onnx")
