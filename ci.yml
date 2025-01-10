@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  test:
+    runs-on: Windows
+
+    services:
+      db:
+        image: postgres:latest # если необходимо, замените на вашу БД
+        env:
+          POSTGRES_USER: user
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: testdb
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U user" --health-interval 10s
+          --health-timeout 5s --health-retries 5
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8' # или другая версия Python
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+      
+      - name: Run tests
+        run: |
+          uvicorn ваша_программа:app --reload & # Запуск сервера в фоновом режиме
+          sleep 5 # ожидание, чтобы сервер успел запуститься
+          curl -X POST "http://localhost:8000/predict2" -F "file=@B:\ml-api_images\cet.jpg" # пример запроса
